@@ -2,8 +2,10 @@
 #include "Game.h"
 
 Game::Game( const Window& window ) 
-	:BaseGame{ window }
+	:BaseGame{ window },
+	standingEnemiesAmount{}
 {
+	srand(unsigned int(time(nullptr)));
 	Initialize();
 }
 
@@ -12,54 +14,73 @@ Game::~Game( )
 	Cleanup( );
 }
 
-void Game::Initialize( )
+void Game::Initialize()
 {
-	
+
+	screenScale = GetViewPort().width/1366.f;
+	myPlayer = new Player{};
 }
 
 void Game::Cleanup( )
 {
+	delete myPlayer;
+	myPlayer = nullptr;
 }
 
 void Game::Update( float elapsedSec )
 {
-	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	//if ( pStates[SDL_SCANCODE_RIGHT] )
-	//{
-	//	std::cout << "Right arrow key is down\n";
-	//}
-	//if ( pStates[SDL_SCANCODE_LEFT] && pStates[SDL_SCANCODE_UP])
-	//{
-	//	std::cout << "Left and up arrow keys are down\n";
-	//}
+	myPlayer->UpdatePlayer(elapsedSec);
 }
 
 void Game::Draw( ) const
 {
-	ClearBackground( );
+	glPushMatrix();
+	glScalef(screenScale, screenScale, 0.f);
+	ClearBackground();
+	myPlayer->DrawPlayer();
+	for (int i{}; i < standingEnemiesAmount; ++i)
+	{
+		standingEmenies[i].Draw();
+	}
+	glPopMatrix();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
 {
-	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
+	switch (e.keysym.sym)
+	{
+	case SDLK_w:
+		myPlayer->SetMovingUp(true);
+		break;
+	case SDLK_a:
+		myPlayer->SetMovingLeft(true);
+		break;
+	case SDLK_s:
+		myPlayer->SetMovingDown(true);
+		break;
+	case SDLK_d:
+		myPlayer->SetMovingRight(true);
+		break;
+	}
 }
 
 void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 {
-	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
-	//switch ( e.keysym.sym )
-	//{
-	//case SDLK_LEFT:
-	//	//std::cout << "Left arrow key released\n";
-	//	break;
-	//case SDLK_RIGHT:
-	//	//std::cout << "`Right arrow key released\n";
-	//	break;
-	//case SDLK_1:
-	//case SDLK_KP_1:
-	//	//std::cout << "Key 1 released\n";
-	//	break;
-	//}
+	switch (e.keysym.sym)
+	{
+	case SDLK_w:
+		myPlayer->SetMovingUp(false);
+		break;
+	case SDLK_a:
+		myPlayer->SetMovingLeft(false);
+		break;
+	case SDLK_s:
+		myPlayer->SetMovingDown(false);
+		break;
+	case SDLK_d:
+		myPlayer->SetMovingRight(false);
+		break;
+	}
 }
 
 void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
@@ -69,37 +90,14 @@ void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
 
 void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 {
-	//std::cout << "MOUSEBUTTONDOWN event: ";
-	//switch ( e.button )
-	//{
-	//case SDL_BUTTON_LEFT:
-	//	std::cout << " left button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_RIGHT:
-	//	std::cout << " right button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	std::cout << " middle button " << std::endl;
-	//	break;
-	//}
 	
 }
 
 void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 {
-	//std::cout << "MOUSEBUTTONUP event: ";
-	//switch ( e.button )
-	//{
-	//case SDL_BUTTON_LEFT:
-	//	std::cout << " left button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_RIGHT:
-	//	std::cout << " right button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	std::cout << " middle button " << std::endl;
-	//	break;
-	//}
+	standingEnemiesAmount++;
+	standingEmenies.push_back(StandingEnemy(Point2f(GetViewPort().width/ screenScale, GetViewPort().height/ screenScale), 10, myPlayer->GetPosition()));
+	
 }
 
 void Game::ClearBackground( ) const

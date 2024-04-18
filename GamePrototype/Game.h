@@ -1,5 +1,10 @@
 #pragma once
 #include "BaseGame.h"
+#include "Player.h"
+#include "StandingEnemy.h"
+#include <vector>
+#include <iostream>
+
 class Game : public BaseGame
 {
 public:
@@ -22,6 +27,14 @@ public:
 	void ProcessMouseUpEvent( const SDL_MouseButtonEvent& e ) override;
 
 private:
+	float screenScale;
+
+	Player* myPlayer;
+
+	int standingEnemiesAmount;
+	std::vector<StandingEnemy> standingEmenies;
+
+	
 
 	// FUNCTIONS
 	void Initialize();
