@@ -4,26 +4,22 @@
 
 StandingEnemy::StandingEnemy()
 	: m_Position{},
-	m_Size{10}
+	m_Size{20}
 {
 }
 
 StandingEnemy::StandingEnemy(Point2f screenSize, float border, Point2f playerPos)
-	: m_Position{rand()%int(screenSize.x-2*int(border))-border, rand()%int(screenSize.x - 2 * int(border))-border },
-	m_Size{ 10 }
+	: m_Position{},
+	m_Size{ 20 }
 {
-	while (utils::GetDistance(playerPos, m_Position) < 100)
+	do
 	{
-		m_Position = Point2f(rand() % int(screenSize.x - 2 * int(border)) - border, rand() % int(screenSize.x - 2 * int(border)) - border);
-	}
+		m_Position = Point2f(rand() % int(screenSize.x - 2 * border) + border, rand() % int(screenSize.y - 2 * border) + border);
+	} while (utils::GetDistance(playerPos, m_Position) < 200);
 }
 
 void StandingEnemy::Draw()const
 {
 	utils::SetColor(Color4f(1, 0, 0, 1));
 	utils::FillEllipse(m_Position, m_Size, m_Size);
-}
-
-void StandingEnemy::Update(float elapsedSec)
-{
 }

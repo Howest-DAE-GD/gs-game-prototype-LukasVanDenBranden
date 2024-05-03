@@ -2,6 +2,7 @@
 #include "BaseGame.h"
 #include "Player.h"
 #include "StandingEnemy.h"
+#include "RotatingEnemy.h"
 #include <vector>
 #include <iostream>
 
@@ -28,13 +29,35 @@ public:
 
 private:
 	float screenScale;
+	int levelnr;
+
+	bool GameOver;
+	bool DoorIsClosed;
+	bool DoorIsClosing;
+	float DoorClosingTimer;
 
 	Player* myPlayer;
 
 	int standingEnemiesAmount;
 	std::vector<StandingEnemy> standingEmenies;
+	int rotatingEnemiesAmount;
+	std::vector<RotatingEnemy> rotatingEnemies;
 
+
+	bool enterenceIsUp;
+	bool enterenceIsDown;
+	bool enterenceIsLeft;
+	bool enterenceIsRight;
+	float enterenceDistance;
+
+	bool exitIsUp;
+	bool exitIsDown;
+	bool exitIsLeft;
+	bool exitIsRight;
+	float exitDistance;
 	
+	void UpdateRoom();
+	void AddNewEnemy();
 
 	// FUNCTIONS
 	void Initialize();

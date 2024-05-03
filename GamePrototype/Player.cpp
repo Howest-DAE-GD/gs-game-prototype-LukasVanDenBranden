@@ -8,14 +8,19 @@ Player::Player()
 	m_MovingDown{},
 	m_MovingLeft{},
 	m_MovingRight{},
-	m_Speed{ 500 }
+	m_Speed{ 350 },
+	m_Position{960, 540},
+	m_Velocity{}
 {
 }
 
 void Player::DrawPlayer()
 {
 	utils::SetColor(Color4f(0, 1, 0, 1));
-	utils::FillEllipse(m_Position, 10, 10);
+	utils::FillEllipse(m_Position, 27, 27);
+	utils::SetColor(Color4f(0, 0, 0, 1));
+	utils::FillEllipse(Point2f(m_Position.x-10 + m_Velocity.x / 70, m_Position.y+3+m_Velocity.y/60), 7, 7);
+	utils::FillEllipse(Point2f(m_Position.x+10 + m_Velocity.x / 70, m_Position.y+3 + m_Velocity.y / 60), 7, 7);
 }
 
 void Player::UpdatePlayer(float elapsedSec)
@@ -78,4 +83,17 @@ void Player::SetMovingRight(bool b)
 Point2f Player::GetPosition()
 {
 	return m_Position;
+}
+Point2f Player::GetVelocity()
+{
+	return m_Velocity;
+}
+
+void Player::SetPosition(Point2f pos)
+{
+	m_Position = pos;
+}
+void Player::SetVelocity(Point2f vel)
+{
+	m_Velocity = vel;
 }

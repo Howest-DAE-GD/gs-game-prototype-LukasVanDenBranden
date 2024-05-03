@@ -13,7 +13,9 @@ public:
 	void SetMovingRight(bool b);
 
 	Point2f GetPosition();
-
+	Point2f GetVelocity();
+	void SetPosition(Point2f pos);
+	void SetVelocity(Point2f vel);
 
 private:
 	//input
