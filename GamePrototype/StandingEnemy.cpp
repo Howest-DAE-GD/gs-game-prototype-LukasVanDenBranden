@@ -20,6 +20,6 @@ StandingEnemy::StandingEnemy(Point2f screenSize, float border, Point2f playerPos
 
 void StandingEnemy::Draw()const
 {
-	utils::SetColor(Color4f(1, 0, 0, 1));
+	utils::SetColor(Color4f(0.859f, 0.302f, 0.145f, 1));
 	utils::FillEllipse(m_Position, m_Size, m_Size);
 }

@@ -30,21 +30,21 @@ RotatingEnemy::RotatingEnemy(Point2f screenSize, float border, Point2f playerPos
 
 void RotatingEnemy::Draw() const
 {
-	utils::SetColor(Color4f(1, 0, 0.7f, 1));
+	utils::SetColor(Color4f(0.859f, 0.145f, 0.471f, 1));
 	utils::FillEllipse(m_Position, m_Size, m_Size);
 	//animation
 	if (m_Direction)
 	{
-		utils::SetColor(Color4f(1, 0, 0.7f, 0.3f));
+		utils::SetColor(Color4f(0.859f, 0.145f, 0.471f, 0.3f));
 		utils::FillEllipse(Point2f(m_Center.x + 100 * sin(m_Timer - 0.4f), m_Center.y + 100 * cos(m_Timer - 0.4f)), m_Size / 1.5f, m_Size / 1.5f);
-		utils::SetColor(Color4f(1, 0, 0.7f, 0.2f));
+		utils::SetColor(Color4f(0.859f, 0.145f, 0.471f, 0.2f));
 		utils::FillEllipse(Point2f(m_Center.x + 100 * sin(m_Timer - 0.7f), m_Center.y + 100 * cos(m_Timer - 0.7f)), m_Size / 2, m_Size / 2);
 	}
 	else
 	{
-		utils::SetColor(Color4f(1, 0, 0.7f, 0.3f));
+		utils::SetColor(Color4f(0.859f, 0.145f, 0.471f, 0.3f));
 		utils::FillEllipse(Point2f(m_Center.x + 100 * sin(-m_Timer + 0.4f), m_Center.y + 100 * cos(-m_Timer + 0.4f)), m_Size / 1.5f, m_Size / 1.5f);
-		utils::SetColor(Color4f(1, 0, 0.7f, 0.2f));
+		utils::SetColor(Color4f(0.859f, 0.145f, 0.471f, 0.2f));
 		utils::FillEllipse(Point2f(m_Center.x + 100 * sin(-m_Timer + 0.7f), m_Center.y + 100 * cos(-m_Timer + 0.7f)), m_Size / 2, m_Size / 2);
 	}
 }

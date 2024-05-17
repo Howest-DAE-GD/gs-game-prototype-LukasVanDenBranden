@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "StandingEnemy.h"
 #include "RotatingEnemy.h"
+#include <Texture.h>
 #include <vector>
 #include <iostream>
 
@@ -30,6 +31,8 @@ public:
 private:
 	float screenScale;
 	int levelnr;
+	Texture* backgroundLevelnr;
+	bool textSetRed;
 
 	bool GameOver;
 	bool DoorIsClosed;

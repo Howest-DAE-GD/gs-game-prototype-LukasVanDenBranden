@@ -5,7 +5,9 @@ Game::Game( const Window& window )
 	:BaseGame{ window },
 	standingEnemiesAmount{},
 	rotatingEnemiesAmount{},
-	levelnr{},
+	levelnr{0},
+	backgroundLevelnr{},
+	textSetRed{},
 	enterenceIsUp{},
 	enterenceIsDown{},
 	enterenceIsLeft{},
@@ -96,7 +98,6 @@ void Game::UpdateRoom()
 
 void Game::AddNewEnemy()
 {
-	std::cout << levelnr << std::endl;
 	if (levelnr < 5)
 	{
 		standingEnemiesAmount++;
@@ -121,11 +122,14 @@ void Game::AddNewEnemy()
 		standingEnemiesAmount++;
 		standingEmenies.push_back(StandingEnemy(Point2f(GetViewPort().width / screenScale, GetViewPort().height / screenScale), 75, myPlayer->GetPosition()));
 	}
+	
 	levelnr++;
+	backgroundLevelnr = new Texture{std::to_string(levelnr), "Heavitas.ttf", 1200, Color4f(0.1f, 0.1f, 0.1f, 1.f)};
 }
 
 void Game::Initialize()
 {
+
 	screenScale = GetViewPort().width/1920.f;
 	myPlayer = new Player{};
 
@@ -140,6 +144,7 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
+
 	if (GameOver)
 		elapsedSec /= 10;
 
@@ -282,6 +287,11 @@ void Game::Update( float elapsedSec )
 		}
 	}
 
+	if (GameOver && !textSetRed)
+	{
+		backgroundLevelnr = new Texture{ std::to_string(levelnr), "Heavitas.ttf", 1200, Color4f(0.35f, 0.1f, 0.1f, 1.f) };
+		textSetRed = true;
+	}
 }
 
 void Game::Draw( ) const
@@ -290,13 +300,18 @@ void Game::Draw( ) const
 	glScalef(screenScale, screenScale, 0.f);
 	ClearBackground();
 
+	backgroundLevelnr->Draw(Point2f(960 - backgroundLevelnr->GetWidth()/2, 410-backgroundLevelnr->GetHeight()/2));
+
 	utils::SetColor(Color4f(1, 1, 1, 1));
 	utils::FillRect(0, 1030, 1920, 50);
 	utils::FillRect(0, 0, 1920, 50);
 	utils::FillRect(1870, 0, 50, 1080);
 	utils::FillRect(0, 0, 50, 1080);
 
-	utils::SetColor(Color4f(0, 0, 0, 1));
+	if(GameOver)
+		utils::SetColor(Color4f(0.2f, 0.0f, 0.0f, 1.0f));
+	else
+		utils::SetColor(Color4f(0, 0, 0, 1));
 	//draw enterence
 	if (enterenceIsUp)
 	{
@@ -414,7 +429,9 @@ void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 void Game::ClearBackground( ) const
 {
 	if (GameOver)
+	{
 		glClearColor(0.2f, 0.0f, 0.0f, 1.0f);
+	}
 	else
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);

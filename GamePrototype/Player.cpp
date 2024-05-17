@@ -16,7 +16,7 @@ Player::Player()
 
 void Player::DrawPlayer()
 {
-	utils::SetColor(Color4f(0, 1, 0, 1));
+	utils::SetColor(Color4f(0.149f, 0.859f, 0.412f, 1));
 	utils::FillEllipse(m_Position, 27, 27);
 	utils::SetColor(Color4f(0, 0, 0, 1));
 	utils::FillEllipse(Point2f(m_Position.x-10 + m_Velocity.x / 70, m_Position.y+3+m_Velocity.y/60), 7, 7);
